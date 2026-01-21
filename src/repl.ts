@@ -32,8 +32,10 @@ export function startREPL() {
         }
         const registry = getCommands();
         const userCommand = parsedWords[0];
+        let executed = false;
         for (const command in registry) {
             if (userCommand === command) {
+                executed = true;
                 try {
                     registry[command].callback(registry);
                 } catch (err) {
@@ -45,10 +47,11 @@ export function startREPL() {
                 }
             } 
         }
-        console.log("Unknown command");
+        if (!executed) {
+            console.log("Unknown command");
+        }
         rl.prompt();
-
-
+        
     });
 }
 

@@ -1,5 +1,7 @@
-"use strict";
+import { startREPL } from "./repl.js";
+import { initState } from "./state.js";
 function main() {
-    console.log("Hello, world!");
+    const state = initState();
+    startREPL(state);
 }
 main();

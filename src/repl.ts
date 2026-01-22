@@ -18,7 +18,7 @@ export function startREPL(state: State) {
 
     rl.prompt();
 
-    rl.on("line", (input) => {
+    rl.on("line", async (input) => {
         const parsedWords = cleanInput(input);
         if (!parsedWords.length) {
             rl.prompt();
@@ -29,7 +29,7 @@ export function startREPL(state: State) {
         const command = registry[userCommand];
         if (command) {
             try {
-                command.callback(state);
+                await command.callback(state);
             } catch (err) {
                 if (err instanceof Error) {
                     console.log(err.message);

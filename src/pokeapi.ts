@@ -3,16 +3,8 @@ export class PokeAPI {
 
     constructor() {}
 
-    async fetchLocations(pageURL?: string): Promise<ShallowLocations> {
-        // const url = pageURL ?? `${PokeAPI.baseURL}/location-area`;
-        let url: string;
-        if (pageURL) {
-            url = pageURL;
-        } else {
-            url = `${PokeAPI.baseURL}/location-area`;
-        }
-
-        const resp = await fetch(url, {
+    async fetchLocations(pageURL: string): Promise<ShallowLocations> {
+        const resp = await fetch(pageURL, {
             method: "GET",
             mode: "cors",
             headers: {

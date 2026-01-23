@@ -2,15 +2,7 @@ export class PokeAPI {
     static baseURL = "https://pokeapi.co/api/v2";
     constructor() { }
     async fetchLocations(pageURL) {
-        // const url = pageURL ?? `${PokeAPI.baseURL}/location-area`;
-        let url;
-        if (pageURL) {
-            url = pageURL;
-        }
-        else {
-            url = `${PokeAPI.baseURL}/location-area`;
-        }
-        const resp = await fetch(url, {
+        const resp = await fetch(pageURL, {
             method: "GET",
             mode: "cors",
             headers: {

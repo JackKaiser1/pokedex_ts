@@ -24,9 +24,11 @@ export function startREPL(state: State) {
             rl.prompt();
             return;
         }
+
         const userCommand = parsedWords[0];
         const registry = state.registry;
         const command = registry[userCommand];
+
         if (command) {
             try {
                 await command.callback(state);
@@ -40,6 +42,7 @@ export function startREPL(state: State) {
         } else {
             console.log("Unknown command");
         }
+        
         rl.prompt();
         
     });

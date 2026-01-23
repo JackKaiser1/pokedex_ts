@@ -4,6 +4,7 @@ import { commandExit } from "./command_exit.js";
 import { commandHelp } from "./command_help.js";
 import { PokeAPI } from "./pokeapi.js";
 import { commandMap } from "./command_map.js";
+import { commandMapb } from "./command_mapb.js";
 export function initState() {
     const rl = createInterface({
         input: stdin,
@@ -25,13 +26,18 @@ export function initState() {
             name: "map",
             description: "Displays 20 location areas",
             callback: commandMap,
+        },
+        mapb: {
+            name: "mapb",
+            description: "Displays 20 previous location areas",
+            callback: commandMapb,
         }
     };
     return {
         interface: rl,
         registry: reg,
         pokeapi: new PokeAPI(),
-        nextLocationsURL: "",
-        prevLocationsURL: "",
+        nextLocationsURL: "https://pokeapi.co/api/v2/location-area",
+        prevLocationsURL: null,
     };
 }

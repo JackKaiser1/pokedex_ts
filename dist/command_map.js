@@ -4,11 +4,12 @@ export async function commandMap(state) {
         return;
     }
     const poke = state.pokeapi;
-    const locationObj = state.prevLocationsURL === null ? await poke.fetchLocations() : await poke.fetchLocations(state.nextLocationsURL);
+    const locationObj = await poke.fetchLocations(state.nextLocationsURL);
     const locations = locationObj.results;
     for (const location of locations) {
         console.log(location.name);
     }
+    console.log("\n");
     state.nextLocationsURL = locationObj.next ?? null;
     state.prevLocationsURL = locationObj.previous ?? "https://pokeapi.co/api/v2/location-area";
 }

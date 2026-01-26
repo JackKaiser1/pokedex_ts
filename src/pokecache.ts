@@ -22,7 +22,8 @@ export class Cache {
     }
 
     #reap() {
-        for (const key of this.#cache.keys()) {
+        const keys = this.#cache.keys();
+        for (const key of keys) {
             const cacheObj = this.#cache.get(key);
             if (!cacheObj) continue;
             else if (cacheObj.createdAt - this.#interval > this.#interval) {
@@ -32,7 +33,7 @@ export class Cache {
     }
 
     #startReapLoop() {
-        this.#reapIntervalId = setInterval(this.#reap, this.#interval);
+        this.#reapIntervalId = setInterval(() => this.#reap(), this.#interval);
     }
 
     stopReapLoop() {

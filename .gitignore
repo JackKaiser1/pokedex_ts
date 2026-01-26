@@ -1,3 +1,4 @@
 node_modules/
 src/repl.log
 repl.log
+dist/

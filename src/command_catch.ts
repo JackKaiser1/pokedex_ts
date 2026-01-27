@@ -1,8 +1,6 @@
 import { type State } from "./state.js";
 import { type Pokemon} from "./pokeapi.js";
 
-
-
 export async function commandCatch(state: State, ...args: string[]) {
     const pokeapi = state.pokeapi;
     const pokemonName = args[0];
@@ -15,11 +13,6 @@ export async function commandCatch(state: State, ...args: string[]) {
     }
 
     const [catchNum, randNum, catchLow, catchHigh] = getRand(pokeObj.base_experience);
-
-    // console.log("\n");
-    // console.log(pokeObj.base_experience);
-    // console.log(catchNum);
-    // console.log(randNum);
 
     if (randNum >= catchNum - catchLow && randNum < catchNum + catchHigh) {
         console.log(`${pokemonName} was caught!`);

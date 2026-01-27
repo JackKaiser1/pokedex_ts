@@ -101,16 +101,37 @@ export type Pokemon = {
     species: object;
     sprites: object;
     cries: object;
-    stats: object[];
-    types: object[];
+    stats: StatObject[];
+    types: TypeObject[];
     past_types: object[];
     past_abilities: object[];
 }
 
+type StatObject = {
+    base_stat: number;
+    effort: number;
+    stat: Stat;
+}
+
+type Stat = {
+    name: string;
+    url: string;
+}
+
+type TypeObject = {
+    slot: number;
+    type: Type;
+}
+
+type Type = {
+    name: string;
+    url: string;
+}
+
 
 // const poke = new PokeAPI();
-// const data: Pokemon = await poke.fetchPokemon("clefairy");
-// console.log(data);
+// const data: Pokemon = await poke.fetchPokemon("pidgey");
+// console.log(data.types);
 
 
 

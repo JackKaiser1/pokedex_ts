@@ -24,7 +24,22 @@ export class PokeAPI{
     }
 
     async fetchLocation(locationName: string): Promise<Location> {
-        return {name: "", url: ""};
+        const url = `${PokeAPI.baseURL}/location-area/${locationName}`;
+        const dataObj: CacheEntry<Promise<Location>> | undefined = this.pokeCache.get(url);
+        if (dataObj) {
+            return dataObj.val;
+        } else {
+            const resp = await fetch(url, {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            const result: Promise<Location> = await resp.json();
+            this.pokeCache.add(url, result);
+            return result;
+        }
     }
 }
 
@@ -36,10 +51,23 @@ export type ShallowLocations = {
 }
 
 export type Location = {
+    encounter_method_rates: object[];
+    game_index: number;
+    id: number;
+    location: object;
     name: string;
-    url: string;
+    names: object[];
+    pokemon_encounters: PokeEncounter[];
+}
+
+export type PokeEncounter = {
+    pokemon: { name: string, url: string };
+    version_details: object[];
 }
 
 // const poke = new PokeAPI();
-// const data = await poke.fetchLocations();
-// console.log(data);
+// const data = await poke.fetchLocation("great-marsh-area-1");
+// for (const encounter of data.pokemon_encounters) {
+//     console.log(encounter.pokemon.name);
+// }
+// console.log(data.pokemon_encounters);

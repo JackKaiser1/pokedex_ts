@@ -26,12 +26,13 @@ export function startREPL(state: State) {
         }
 
         const userCommand = parsedWords[0];
+        const commandArg: string | undefined = parsedWords[1];
         const registry = state.registry;
         const command = registry[userCommand];
 
         if (command) {
             try {
-                await command.callback(state);
+                commandArg !== undefined ? await command.callback(state, commandArg) : await command.callback(state);
             } catch (err) {
                 if (err instanceof Error) {
                     console.log(err.message);

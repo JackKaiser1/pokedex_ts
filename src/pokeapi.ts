@@ -41,6 +41,25 @@ export class PokeAPI{
             return result;
         }
     }
+
+    async fetchPokemon(name: string): Promise<Pokemon> {
+        const url = `${PokeAPI.baseURL}/pokemon/${name}`;
+        const dataObj: CacheEntry<Promise<Pokemon>> | undefined = this.pokeCache.get(url);
+        if (dataObj) {
+            return dataObj.val;
+        } else {
+            const resp = await fetch(url, {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            const result: Promise<Pokemon> = await resp.json();
+            this.pokeCache.add(url, result);
+            return result;
+        }
+    }
 }
 
 export type ShallowLocations = {
@@ -65,8 +84,37 @@ export type PokeEncounter = {
     version_details: object[];
 }
 
+export type Pokemon = {
+    id: number;
+    name: string;
+    base_experience: number;
+    height: number;
+    is_default: boolean;
+    order: number;
+    weight: number;
+    abilites: object[];
+    forms: object[];
+    game_indices: object[];
+    held_items: object[];
+    location_area_encounters: string;
+    moves: object[];
+    species: object;
+    sprites: object;
+    cries: object;
+    stats: object[];
+    types: object[];
+    past_types: object[];
+    past_abilities: object[];
+}
+
+
 // const poke = new PokeAPI();
-// const data = await poke.fetchLocation("great-marsh-area-1");
+// const data: Pokemon = await poke.fetchPokemon("clefairy");
+// console.log(data);
+
+
+
+
 // for (const encounter of data.pokemon_encounters) {
 //     console.log(encounter.pokemon.name);
 // }

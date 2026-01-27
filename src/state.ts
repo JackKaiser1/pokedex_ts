@@ -2,11 +2,12 @@ import { createInterface, type Interface } from "readline";
 import { stdin, stdout } from "node:process";
 import { commandExit } from "./command_exit.js";
 import { commandHelp } from "./command_help.js";
-import { PokeAPI } from "./pokeapi.js";
+import { PokeAPI, type Pokemon } from "./pokeapi.js";
 import { commandMap } from "./command_map.js";
 import { commandMapb } from "./command_mapb.js";
 import { commandExplore } from "./command_explore.js";
-
+import { commandCatch } from "./command_catch.js";
+ 
 export type CLICommand = {
     name: string;
     description: string;
@@ -19,6 +20,7 @@ export type State = {
     pokeapi: PokeAPI;
     nextLocationsURL: string | null;
     prevLocationsURL: string | null;
+    pokedex: Map<string, Pokemon>;
 }
 
 export function initState(): State {
@@ -53,6 +55,11 @@ export function initState(): State {
                 name: "explore",
                 description: "Displays the names of all of the pokemon in the specified area, takes one parameter",
                 callback: commandExplore,
+            },
+            catch: {
+                name: "catch",
+                description: "Allows the user to throw a ball at a pokemon",
+                callback: commandCatch,
             }
         }
 
@@ -62,5 +69,6 @@ export function initState(): State {
         pokeapi: new PokeAPI(),
         nextLocationsURL: "https://pokeapi.co/api/v2/location-area",
         prevLocationsURL: null,
+        pokedex: new Map(),
     }
 }
